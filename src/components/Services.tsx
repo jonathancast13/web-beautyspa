@@ -3,11 +3,7 @@ import { salon } from "@/config/salon";
 export default function Services() {
   return (
     <section id="servicios" className="mx-auto max-w-5xl px-6 py-16">
-      <h2 className="text-center text-3xl font-bold text-neutral-900">Servicios y precios</h2>
-      <p className="mt-3 text-center text-neutral-500">
-        La duración de cada servicio es la que usa el asistente para reservar tu cita.
-      </p>
-
+      <h2 className="text-center text-3xl font-bold text-neutral-900">Servicios</h2>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {salon.services.map((service) => (
           <article

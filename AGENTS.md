@@ -24,6 +24,7 @@ Pensada para desplegarse en Vercel; el backend valida disponibilidad en Google C
 - Datos del salón (servicios, horarios, textos, FAQ) siempre en `src/config/salon.ts`: nunca hardcodearlos en componentes (archivo de referencia).
 - Fechas y horas: usar siempre `src/backend/time.ts` (`localToUtcMs`, `dateFromMs`), nunca `Date` local del servidor.
 - Separación frontend/backend: la ruta del webhook solo delega; la lógica va en `src/backend/`.
+- Imágenes en `public/images/` (nombres en inglés) usando `next/image`, nunca `<img>`; rutas y `alt` (en español) centralizados en `photos` de `src/config/salon.ts`.
 
 ## Reglas de dominio / trampas conocidas
 
@@ -42,6 +43,7 @@ Pensada para desplegarse en Vercel; el backend valida disponibilidad en Google C
 ## Límites
 
 - ✅ Siempre: editar `src/config/salon.ts`, comentarios en español, mantener la separación frontend/backend.
+- ✅ Siempre: añadir/actualizar imágenes en `public/images/`.
 - ✅ Siempre: actualizar `MEMORY.md` al terminar cada tarea.
 - ⚠️ Pregunta antes: dependencias nuevas, nuevas tablas/columnas de Supabase, cambios en el esquema de datos, cambiar la versión de la Graph API o el proveedor de WhatsApp.
 - 🚫 Nunca: tocar `supabase/schema.sql` una vez ejecutado en producción (crear migración nueva), subir `.env.local`, saltarse la comprobación de disponibilidad antes de crear el evento.

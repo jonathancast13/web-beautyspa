@@ -20,7 +20,7 @@ export type FaqItem = { question: string; answer: string };
 
 export const salon = {
   name: "Destellos Nailsss",
-  tagline: "Salón de uñas · Reserva tu cita por WhatsApp en 1 minuto",
+  tagline: "Salón de uñas",
 
   /** Número del chatbot: dígitos con prefijo de país y sin "+" */
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "34645245806",
@@ -28,7 +28,7 @@ export const salon = {
   /** Teléfono visible por si alguien quiere llamar al salón a mano */
   phoneForHumans: "+34 600 00 00 00",
 
-  address: "Calle Ejemplo 123, Madrid",
+  address: "Carrer Asturias 8, Catarroja (Valencia)",
 
   /** Zona horaria del salón (formato IANA) */
   timezone: "Europe/Madrid",
@@ -127,6 +127,32 @@ export const salon = {
       answer: "Escríbenos por WhatsApp indicando tu nombre y te lo cambiamos enseguida.",
     },
   ] as FaqItem[],
+
+  /** Imágenes de la landing (archivos en public/images/) */
+  photos: {
+    hero: {
+      src: "/images/hero.jpg",
+      alt: "Manicura con diseño en rojos y rosa sobre fondo blanco de pelo suave",
+    },
+    gallery: [
+      {
+        src: "/images/galeria-1.jpg",
+        alt: "Uñas puntiagudas con diseño de corazones en rojo y negro",
+      },
+      {
+        src: "/images/galeria-2.jpg",
+        alt: "Manicura de fantasía con conejo y motivos de Navidad en lila",
+      },
+      {
+        src: "/images/galeria-3.jpg",
+        alt: "Uñas cortas con esmalte magenta y detalles en blanco, negro y dorado",
+      },
+      {
+        src: "/images/galeria-4.jpg",
+        alt: "Diseño de uñas con carita sonriente, arcoíris, nubes y estampado vaca",
+      },
+    ],
+  },
 };
 
 /** Enlace directo a una conversación de WhatsApp con un mensaje de bienvenida. */

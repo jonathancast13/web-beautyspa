@@ -1,5 +1,6 @@
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import Gallery from "@/components/Gallery";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Schedule from "@/components/Schedule";
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <Services />
       <HowItWorks />
+      <Gallery />
       <Schedule />
       <FAQ />
       <Footer />
