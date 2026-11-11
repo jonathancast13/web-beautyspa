@@ -15,8 +15,7 @@ export default function Hero() {
           <p className="mt-4 text-lg text-neutral-600">{salon.tagline}</p>
 
           <p className="mt-2 text-base text-neutral-500">
-            Cuéntale a nuestro asistente qué servicio quieres y para qué día: te confirma la cita en
-            cuanto encuentre un hueco libre.
+          Atención cercana, trabajo profesional y dedicación en cada detalle para que tus uñas reflejen tu estilo y te sientas especial.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">

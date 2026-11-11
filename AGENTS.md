@@ -33,6 +33,7 @@ Pensada para desplegarse en Vercel; el backend valida disponibilidad en Google C
 - Credenciales solo en servidor (nunca `NEXT_PUBLIC_`, salvo el número de WhatsApp); `.env.example` es la fuente de verdad de las 9 variables y `env.ts` lista las que falten.
 - `route.ts` exporta `runtime = "nodejs"`: crypto, Supabase y googleapis no funcionan en Edge.
 - La clave privada de Google llega con `\n` escapados; normalizarla en `env.ts` (no duplicar ese código).
+- Los servicios de `src/config/salon.ts` alimentan a la vez la landing, el chatbot (nombres deben ser únicos: `findService` identifica por nombre) y la duración de las citas en Google Calendar.
 
 ## Forma de trabajar
 

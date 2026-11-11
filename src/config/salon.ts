@@ -8,10 +8,18 @@
 
 export type Service = {
   id: string;
+  /** Clave de la categoría a la que pertenece (ver serviceCategories) */
+  category: string;
   name: string;
-  description: string;
   durationMinutes: number;
   price: string;
+};
+
+export type ServiceCategory = {
+  id: string;
+  title: string;
+  /** Nota opcional bajo el título (p. ej. precio variable) */
+  note?: string;
 };
 
 export type OpeningSlot = { from: string; to: string };
@@ -23,10 +31,10 @@ export const salon = {
   tagline: "Salón de uñas",
 
   /** Número del chatbot: dígitos con prefijo de país y sin "+" */
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "34645245806",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "34665828207",
 
   /** Teléfono visible por si alguien quiere llamar al salón a mano */
-  phoneForHumans: "+34 600 00 00 00",
+  phoneForHumans: "+34 665 82 82 07",
 
   address: "Carrer Asturias 8, Catarroja (Valencia)",
 
@@ -39,42 +47,119 @@ export const salon = {
   /** Cada cuántos minutos se pueden encajar las citas */
   slotStepMinutes: 30,
 
+  /**
+   * Grupos de la carta: la landing pinta un bloque por categoría.
+   * IMPORTANTE: el array `services` debe ir agrupado en este mismo orden,
+   * porque la lista numerada del chatbot se genera recorriendolo.
+   */
+  serviceCategories: [
+    { id: "semipermanente", title: "Manicura semipermanente" },
+    { id: "gel", title: "Gel 💅", note: "El precio varía según el largo de las uñas" },
+    { id: "acrilico", title: "Acrílico / Acrigel 💅", note: "El precio varía según el largo de las uñas" },
+  ] as ServiceCategory[],
+
   /** Catálogo de servicios: la duración se usa para buscar huecos libres */
   services: [
+    // — Manicura semipermanente —
     {
-      id: "manicura-clasica",
-      name: "Manicura clásica",
-      description: "Perfilado, cutículas y esmalte tradicional.",
-      durationMinutes: 25,
+      id: "retiro-semipermanente",
+      category: "semipermanente",
+      name: "Retiro semipermanente",
+      durationMinutes: 15,
+      price: "6 €",
+    },
+    {
+      id: "esencial-semipermanente",
+      category: "semipermanente",
+      name: "Esencial semipermanente",
+      durationMinutes: 45,
+      price: "15 €",
+    },
+    {
+      id: "basica-semipermanente",
+      category: "semipermanente",
+      name: "Básica semipermanente",
+      durationMinutes: 60,
       price: "18 €",
     },
     {
-      id: "semipermanente",
-      name: "Esmalte semipermanente",
-      description: "Color duradero de unas 3 semanas con acabado brillante.",
-      durationMinutes: 50,
-      price: "28 €",
+      id: "completa-semipermanente",
+      category: "semipermanente",
+      name: "Completa semipermanente",
+      durationMinutes: 70,
+      price: "21 €",
     },
     {
-      id: "acrilicas",
-      name: "Uñas acrílicas",
-      description: "Extensiones con relleno y diseño a elegir.",
+      id: "base-rubber",
+      category: "semipermanente",
+      name: "Base rubber",
+      durationMinutes: 80,
+      price: "23 €",
+    },
+    {
+      id: "manicura-tradicional",
+      category: "semipermanente",
+      name: "Manicura tradicional",
+      durationMinutes: 40,
+      price: "12 €",
+    },
+    // — Gel —
+    {
+      id: "reconstruccion-gel",
+      category: "gel",
+      name: "Reconstrucción gel",
+      durationMinutes: 15,
+      price: "3 €",
+    },
+    {
+      id: "retirar-gel",
+      category: "gel",
+      name: "Retirar gel",
+      durationMinutes: 30,
+      price: "7 €",
+    },
+    {
+      id: "relleno-gel",
+      category: "gel",
+      name: "Relleno gel",
       durationMinutes: 90,
-      price: "45 €",
+      price: "26 €",
     },
     {
-      id: "gel",
-      name: "Uñas de gel",
-      description: "Fortalecimiento y alargamiento con gel.",
-      durationMinutes: 75,
-      price: "40 €",
+      id: "puesta-gel-tip",
+      category: "gel",
+      name: "Puesta Gel tip",
+      durationMinutes: 120,
+      price: "30 €",
+    },
+    // — Acrílico / Acrigel —
+    {
+      id: "retirar-acrilico",
+      category: "acrilico",
+      name: "Retirar acrílico",
+      durationMinutes: 35,
+      price: "8 €",
     },
     {
-      id: "pedicura",
-      name: "Pedicura spa",
-      description: "Exfoliación, hidratación y esmalte de pies.",
-      durationMinutes: 45,
-      price: "25 €",
+      id: "reconstruccion-acrilico",
+      category: "acrilico",
+      name: "Reconstrucción acrílico",
+      durationMinutes: 15,
+      price: "3 €",
+    },
+    {
+      id: "relleno-acrilico",
+      category: "acrilico",
+      name: "Relleno acrílico",
+      durationMinutes: 100,
+      price: "26 €",
+    },
+    {
+      id: "puesta-acrilico",
+      category: "acrilico",
+      name: "Puesta de acrílico",
+      durationMinutes: 120,
+      price: "34 €",
     },
   ] as Service[],
 
@@ -160,9 +245,24 @@ export function whatsappUrl(message: string): string {
   return `https://wa.me/${salon.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-/** Lista de servicios numerada, igual que la ve el chatbot en WhatsApp. */
+/**
+ * Lista de servicios numerada para el chatbot de WhatsApp, agrupada
+ * por categoría. El número debe coincidir con el índice plano del array
+ * `services` (por eso van agrupados en el mismo orden).
+ */
 export function serviceListText(): string {
-  return salon.services
-    .map((service, index) => `${index + 1}. ${service.name} (${service.durationMinutes} min · ${service.price})`)
-    .join("\n");
+  const lines: string[] = [];
+  let number = 0;
+
+  for (const category of salon.serviceCategories) {
+    lines.push(`— ${category.title} —`);
+
+    for (const service of salon.services) {
+      if (service.category !== category.id) continue;
+      number += 1;
+      lines.push(`${number}. ${service.name} (${service.durationMinutes} min · ${service.price})`);
+    }
+  }
+
+  return lines.join("\n");
 }
